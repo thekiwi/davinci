@@ -7,7 +7,7 @@ import Debug from 'debug';
 import _ from 'lodash';
 import Resource from './Resource';
 
-const debug = new Debug('of-base-api');
+const debug = new Debug('davinci:openapi');
 
 const SWAGGER_VERSION = '2.0';
 
@@ -31,7 +31,7 @@ export const sanitiseResourcePath = resourcePaths => {
 			parameters: _.filter(
 				path.parameters,
 				parameter => !EXCLUDED_PARAMETER_TYPES.includes(parameter.schema.type)
-			)
+			).map(p => _.omit(p, ['_index']))
 		};
 	});
 };

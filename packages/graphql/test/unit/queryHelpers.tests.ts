@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { withOperators, toMongodbQuery } from '../../src/queryHelpers';
 import { field } from '../../src/decorators';
 import { generateGQLSchema } from '../../src';
-import { GraphQLFloat, GraphQLObjectType, GraphQLString } from 'graphql';
+import { GraphQLBoolean, GraphQLFloat, GraphQLObjectType, GraphQLString } from 'graphql';
 
 describe('mongooseHelpers', () => {
 	describe('#toMongodbQuery', () => {
@@ -12,6 +12,7 @@ describe('mongooseHelpers', () => {
 				firstname: { EQ: 'Mike' },
 				lastname: { NOT: { EQ: 'Jordan' } },
 				home: { address: { NE: 'Foobar' } },
+				myNumber: { GTE: 1, LTE: 10 },
 				OR: [{ lastname: { IN: ['Foo'] } }, { lastname: { NIN: ['Bar'] } }],
 				AND: [{ home: { address: { EXISTS: true } } }, { OR: [{ weight: { EQ: 122 } }, { age: { EQ: 30 } }] }]
 			};
@@ -29,6 +30,10 @@ describe('mongooseHelpers', () => {
 				},
 				'home.address': {
 					$ne: 'Foobar'
+				},
+				myNumber: {
+					$gte: 1,
+					$lte: 10
 				},
 				$or: [
 					{
@@ -71,6 +76,9 @@ describe('mongooseHelpers', () => {
 		it('should create a class with added operators', () => {
 			class Phone {
 				@field()
+				isPrimary: boolean;
+
+				@field()
 				number: number;
 			}
 
@@ -105,7 +113,7 @@ describe('mongooseHelpers', () => {
 			]);
 			should(firstnameFields.EQ.type).be.equal(GraphQLString);
 			should(fields.phone.type).be.instanceOf(GraphQLObjectType);
-			should(Object.keys(phoneFields)).be.deepEqual(['number', 'AND', 'OR', 'NOR']);
+			should(Object.keys(phoneFields)).be.deepEqual(['isPrimary', 'number', 'AND', 'OR', 'NOR']);
 			should(Object.keys(phoneFields.number.type.getFields())).be.deepEqual([
 				'EQ',
 				'NE',
@@ -119,6 +127,7 @@ describe('mongooseHelpers', () => {
 				'NOT'
 			]);
 			should(phoneFields.number.type.getFields().EQ.type).be.equal(GraphQLFloat);
+			should(phoneFields.isPrimary.type.getFields().EQ.type).be.equal(GraphQLBoolean);
 		});
 	});
 });

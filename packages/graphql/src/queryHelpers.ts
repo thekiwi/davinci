@@ -28,7 +28,8 @@ export const toMongodbQuery = (query, path = '') => {
 				const v = key === 'NOT' ? toMongodbQuery(value, '') : value;
 				const queryObj = { [convertToMongodbOperator(key)]: v };
 				if (path) {
-					acc[path] = queryObj;
+					const obj = _.get(acc, path);
+					acc[path] = _.merge({}, obj, queryObj);
 					return acc;
 				}
 
@@ -61,7 +62,7 @@ const renameClass = (theClass: ClassType, newName: string) => {
 };
 
 const createFieldFilterOperatorsClass = (type, name: string) => {
-	if ([String, Number, Date].includes(type)) {
+	if ([String, Number, Date, Boolean].includes(type)) {
 		class BaseFilterOperators {
 			@field({ typeFactory: () => type })
 			EQ: any;

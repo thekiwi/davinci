@@ -13,9 +13,7 @@ import { IResolverDecoratorMetadata, OperationType, ResolverMiddleware } from '.
 
 function applyMiddlewares<TSource, TContext>(...middlewares: ResolverMiddleware<TSource, TContext>[]) {
 	const main: ResolverMiddleware<TSource, TContext> = async (root, args, context, info) => {
-		const results = await Bluebird.map(middlewares, middleware => middleware(root, args, context, info), {
-			concurrency: 1
-		});
+		const results = await Bluebird.mapSeries(middlewares, middleware => middleware(root, args, context, info));
 
 		return results[results.length - 1];
 	};
@@ -96,24 +94,24 @@ export const createExecutableSchema = (
 
 	const { resolverArgs, handlerArgsDefinition } = resolverArgsMetadata.reduce(
 		(acc, arg: any) => {
-			const { type, name, opts } = arg;
+			const { type, name, opts, index } = arg;
 
 			const options = opts || {};
 			let graphqlArgType = type;
 			if (type === 'context') {
-				acc.handlerArgsDefinition.push({ name, isContext: true });
+				acc.handlerArgsDefinition.push({ name, index, isContext: true });
 				return acc;
 			}
 			if (type === 'info') {
-				acc.handlerArgsDefinition.push({ name, isInfo: true });
+				acc.handlerArgsDefinition.push({ name, index, isInfo: true });
 				return acc;
 			}
 			if (type === 'selectionSet') {
-				acc.handlerArgsDefinition.push({ name, isSelectionSet: true });
+				acc.handlerArgsDefinition.push({ name, index, isSelectionSet: true });
 				return acc;
 			}
 			if (type === 'parent') {
-				acc.handlerArgsDefinition.push({ name, isParent: true });
+				acc.handlerArgsDefinition.push({ name, index, isParent: true });
 				return acc;
 			}
 
@@ -145,7 +143,7 @@ export const createExecutableSchema = (
 			graphqlArgType = options.required ? new GraphQLNonNull(gqlArgType) : gqlArgType;
 
 			acc.resolverArgs[name] = { type: graphqlArgType };
-			acc.handlerArgsDefinition.push({ name });
+			acc.handlerArgsDefinition.push({ name, index });
 			return acc;
 		},
 		{ resolverArgs: {}, handlerArgsDefinition: [] }
@@ -163,17 +161,22 @@ export const createExecutableSchema = (
 		.map(({ middlewareFunction }) => middlewareFunction);
 
 	const mainResolve = (root, args, context, info) => {
-		const handlerArgs = handlerArgsDefinition.map(argDefinition => {
-			const { name, isContext, isInfo, isSelectionSet, isParent } = argDefinition;
-			if (isContext) return context;
-			if (isInfo) return info;
-			if (isSelectionSet) {
-				return getFieldsSelection(info.operation.selectionSet.selections[0], info.returnType.ofType);
+		const handlerArgs = handlerArgsDefinition.reduce((acc, argDefinition) => {
+			const { name, index, isContext, isInfo, isSelectionSet, isParent } = argDefinition;
+			if (isContext) {
+				acc[index] = context;
+			} else if (isInfo) {
+				acc[index] = info;
+			} else if (isSelectionSet) {
+				acc[index] = getFieldsSelection(info.operation.selectionSet.selections[0], info.returnType.ofType);
+			} else if (isParent) {
+				acc[index] = root;
+			} else {
+				acc[index] = args?.[name];
 			}
-			if (isParent) return root;
 
-			return (args || {})[name];
-		});
+			return acc;
+		}, []);
 		return controller[methodName](...handlerArgs);
 	};
 

@@ -6,6 +6,7 @@
 import _ from 'lodash';
 import { Reflector, ReturnTypeFunc, ReturnTypeFuncValue, ClassType } from '@davinci/reflector';
 import {
+	IArgOptions,
 	ITypeDecoratorOptions,
 	IFieldDecoratorOptions,
 	IFieldDecoratorMetadata,
@@ -82,26 +83,21 @@ export const mutation = (returnType: ReturnTypeFunc | ReturnTypeFuncValue, name?
 	};
 };
 
-export interface IArgOptions {
-	required?: boolean;
-	enum?: { [key: string]: string };
-	partial?: boolean;
-}
-
 /**
  * Decorator that annotate a method parameter
- * @param name
  * @param options
  */
-export function arg(name?, options?: IArgOptions): Function {
+export function arg(options?: IArgOptions): Function {
 	return function(prototype: object, methodName: string, index) {
 		// get the existing metadata props
 		const methodParameters = Reflector.getMetadata('davinci:graphql:args', prototype.constructor) || [];
 		const paramtypes = Reflector.getMetadata('design:paramtypes', prototype, methodName);
+		const argType = options?.type ? options?.type : paramtypes?.[index];
+
 		const isAlreadySet = !!_.find(methodParameters, { methodName, index });
 		if (isAlreadySet) return;
 
-		let n = name;
+		let n = options?.name;
 
 		if (!n) {
 			const methodParameterNames = Reflector.getParameterNames(prototype[methodName]);
@@ -114,7 +110,7 @@ export function arg(name?, options?: IArgOptions): Function {
 			name: n,
 			opts: options,
 			handler: prototype[methodName],
-			type: paramtypes && paramtypes[index]
+			type: argType
 		});
 		Reflector.defineMetadata('davinci:graphql:args', methodParameters, prototype.constructor);
 	};
@@ -224,8 +220,17 @@ const middleware = <TSource = any, TContext = any>(
 			args.isControllerMw = true;
 		}
 
+		const middlewares = (Reflector.getMetadata('davinci:graphql:middleware', realTarget) || [])
+			.concat(args)
+			.sort((a, b) => {
+				if (a.isControllerMw && !b.isControllerMw) return -1;
+				if (!a.isControllerMw && b.isControllerMw) return 1;
+
+				return 0;
+			});
+
 		// define new metadata methods
-		Reflector.unshiftMetadata('davinci:graphql:middleware', args, realTarget);
+		Reflector.defineMetadata('davinci:graphql:middleware', middlewares, realTarget);
 
 		return target;
 	};

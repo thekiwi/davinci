@@ -3,6 +3,179 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.9](https://github.com/HPInc/davinci/compare/@davinci/example-rest@0.12.8...@davinci/example-rest@0.12.9) (2020-11-02)
+
+**Note:** Version bump only for package @davinci/example-rest
+
+
+
+
+
+## [0.12.8](https://github.com/HPInc/davinci/compare/@davinci/example-rest@0.12.7...@davinci/example-rest@0.12.8) (2020-10-29)
+
+**Note:** Version bump only for package @davinci/example-rest
+
+
+
+
+
+## [0.12.7](https://github.com/HPInc/davinci/compare/@davinci/example-rest@0.12.6...@davinci/example-rest@0.12.7) (2020-10-15)
+
+**Note:** Version bump only for package @davinci/example-rest
+
+
+
+
+
+## [0.12.6](https://github.com/HPInc/davinci/compare/@davinci/example-rest@0.12.5...@davinci/example-rest@0.12.6) (2020-10-14)
+
+**Note:** Version bump only for package @davinci/example-rest
+
+
+
+
+
+## [0.12.5](https://github.com/HPInc/davinci/compare/@davinci/example-rest@0.12.4...@davinci/example-rest@0.12.5) (2020-09-29)
+
+**Note:** Version bump only for package @davinci/example-rest
+
+
+
+
+
+## [0.12.4](https://github.com/HPInc/davinci/compare/@davinci/example-rest@0.12.3...@davinci/example-rest@0.12.4) (2020-08-27)
+
+**Note:** Version bump only for package @davinci/example-rest
+
+
+
+
+
+## [0.12.3](https://github.com/HPInc/davinci/compare/@davinci/example-rest@0.12.2...@davinci/example-rest@0.12.3) (2020-07-21)
+
+
+### Bug Fixes
+
+* update lodash due to security vulnerability ([f41eb8f](https://github.com/HPInc/davinci/commit/f41eb8f7d5c6958288508a51427b8fb1083de11c))
+
+
+
+
+
+## [0.12.2](https://github.com/HPInc/davinci/compare/@davinci/example-rest@0.12.1...@davinci/example-rest@0.12.2) (2020-07-03)
+
+**Note:** Version bump only for package @davinci/example-rest
+
+
+
+
+
+## [0.12.1](https://github.com/HPInc/davinci/compare/@davinci/example-rest@0.12.0...@davinci/example-rest@0.12.1) (2020-07-03)
+
+**Note:** Version bump only for package @davinci/example-rest
+
+
+
+
+
+# [0.12.0](https://github.com/HPInc/davinci/compare/@davinci/example-rest@0.11.6...@davinci/example-rest@0.12.0) (2020-07-03)
+
+
+### Features
+
+* allow passing the express instance as parameter ([89f410e](https://github.com/HPInc/davinci/commit/89f410e04ba65f52177868b000dbf10243f62281))
+
+
+
+
+
+## [0.11.6](https://github.com/HPInc/davinci/compare/@davinci/example-rest@0.11.5...@davinci/example-rest@0.11.6) (2020-07-02)
+
+**Note:** Version bump only for package @davinci/example-rest
+
+
+
+
+
+## [0.11.5](https://github.com/HPInc/davinci/compare/@davinci/example-rest@0.11.4...@davinci/example-rest@0.11.5) (2020-07-01)
+
+**Note:** Version bump only for package @davinci/example-rest
+
+
+
+
+
+## [0.11.4](https://github.com/HPInc/davinci/compare/@davinci/example-rest@0.11.3...@davinci/example-rest@0.11.4) (2020-07-01)
+
+
+### Bug Fixes
+
+* remove unused testing npms ([c6d02b6](https://github.com/HPInc/davinci/commit/c6d02b6f5fd8ac2ad83399f3e697ab424e834dde))
+
+
+
+
+
+## [0.11.3](https://github.com/HPInc/davinci/compare/@davinci/example-rest@0.11.2...@davinci/example-rest@0.11.3) (2020-05-08)
+
+**Note:** Version bump only for package @davinci/example-rest
+
+
+
+
+
+## [0.11.2](https://github.com/HPInc/davinci/compare/@davinci/example-rest@0.11.1...@davinci/example-rest@0.11.2) (2020-05-06)
+
+**Note:** Version bump only for package @davinci/example-rest
+
+
+
+
+
+## 0.11.1 (2020-05-06)
+
+**Note:** Version bump only for package @davinci/example-rest
+
+
+
+
+
+# 0.11.0 (2020-05-06)
+
+
+### Bug Fixes
+
+* better model type inference ([57c25d7](https://github.com/HPInc/davinci/commit/57c25d77c4b286d84fc03228a5087c735ca49fb6))
+* commit all package-lock ([1208431](https://github.com/HPInc/davinci/commit/12084317ba2e35eb7a648400e8e28cdeb3ce79a7))
+* configureExpress, method parameter replacement, mongoose controller factory ([#8](https://github.com/HPInc/davinci/issues/8)) ([2268a4f](https://github.com/HPInc/davinci/commit/2268a4fc37209e2a79fc8123a46d034820cae8b8))
+* correctly passing the context in the updateById method ([ce21207](https://github.com/HPInc/davinci/commit/ce2120779cda440f9592f47eb107a08ad4bf59e7))
+* decorators now decorate the class constructor ([49fb513](https://github.com/HPInc/davinci/commit/49fb513a70d27a8062972cd2f4e4cd98d11009ab))
+* fixed mongoose controller findById ([#10](https://github.com/HPInc/davinci/issues/10)) ([dc1e52e](https://github.com/HPInc/davinci/commit/dc1e52e2e49f000469c488b8a7a52480ecbcb77d))
+* fixed mongoose crud model document count ([9eed0c5](https://github.com/HPInc/davinci/commit/9eed0c5c58cbbb3c2fccc33c24b281b5b698d431))
+* fixed swagger ids by using {id} convention ([a6f23c0](https://github.com/HPInc/davinci/commit/a6f23c0a418f3e772b6a5eff2a65d84644013666))
+* handle excluded methods properly in createRouter ([e9e2997](https://github.com/HPInc/davinci/commit/e9e299711f456aa93737055da86db96360d77632))
+* loose check on ObjectId schema type ([#13](https://github.com/HPInc/davinci/issues/13)) ([f25645d](https://github.com/HPInc/davinci/commit/f25645d7535ae718178712cdcfb348e7711c0b22))
+* reinstall whole rope to fix circleci sync error ([9d3c733](https://github.com/HPInc/davinci/commit/9d3c733cbd72b179fd2b6ce3c795e61ebb01b925))
+* revert local import ([2b4cf55](https://github.com/HPInc/davinci/commit/2b4cf550727e16fe4fa5ea4423d9b6205e6b41d8))
+* use optional chaining operator and update typescript to 3.7.5 ([6b5d97f](https://github.com/HPInc/davinci/commit/6b5d97faa6d7ad8df3a87906ce21e589a30827fd))
+
+
+### Features
+
+* added apollo server creation logic, mutations, example ([1922911](https://github.com/HPInc/davinci/commit/1922911207986f13bb2bf775f6f8495bd5759fa2))
+* added swagger UI, simplified swagger doc serving ([391cdd6](https://github.com/HPInc/davinci/commit/391cdd69236ea2f18ba5783159459a0cb649c9ad))
+* davinci ([3e477ff](https://github.com/HPInc/davinci/commit/3e477ffdef95b0177d164da110d13bd2243d8a73))
+* **decoratorFactory:** added factory functions to the openapi prop decorator ([fdc5cdf](https://github.com/HPInc/davinci/commit/fdc5cdf8006ced4f896b19263fe13d2f910ef5a5))
+* **eslint:** added eslint, removed tslint (deprecated) ([50d4038](https://github.com/HPInc/davinci/commit/50d4038b62fb95fa208259941f70c5dd2a3874cb))
+* exposing DaVinci options ([3cdb77e](https://github.com/HPInc/davinci/commit/3cdb77ee2738c4b0766ae3bf05d4357e95ca43ca))
+* lerna conventional commits ([#3](https://github.com/HPInc/davinci/issues/3)) ([ebbfecb](https://github.com/HPInc/davinci/commit/ebbfecb0a6dc41c5ee43de2d891d8f7301bb9590))
+* merged with master ([327c2da](https://github.com/HPInc/davinci/commit/327c2dacf4c84c863c584f20be7c7019add101ba))
+* Reflector, added method getParameterNames ([868e3a8](https://github.com/HPInc/davinci/commit/868e3a831aa779a595e0af9faf1b9fe8e691c28b))
+
+
+
+
+
 ## [0.10.7](https://github.com/Oneflow/davinci/compare/crm@0.10.6...crm@0.10.7) (2020-04-22)
 
 **Note:** Version bump only for package crm

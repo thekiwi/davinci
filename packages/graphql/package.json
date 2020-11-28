@@ -1,11 +1,15 @@
 {
 	"name": "@davinci/graphql",
-	"version": "0.11.1",
+	"version": "1.2.7",
 	"description": "Framework for rapid and consistent API development",
-	"main": "build/index.js",
-	"types": "build/index.d.ts",
+	"main": "build-cjs/index.js",
+	"module": "build-esm/index.js",
+	"types": "build-cjs/index.d.ts",
+	"sideEffects": false,
 	"scripts": {
-		"build": "tsc -p ./tsconfig.release.json",
+		"build": "npm run build-cj && npm run build-esm",
+		"build-cj": "tsc -p tsconfig.cjs.release.json",
+		"build-esm": "tsc -p tsconfig.esm.release.json",
 		"eslint": "../../node_modules/eslint/bin/eslint.js --c .eslintrc 'src/**/*.ts'",
 		"pretest": "npm run eslint && npm run build",
 		"test": "mocha --exit",
@@ -14,17 +18,17 @@
 	"author": "Oneflow Systems (http://www.oneflowsystems.com/)",
 	"license": "ISC",
 	"dependencies": {
-		"@davinci/core": "^0.16.1",
-		"@davinci/reflector": "^0.10.1",
+		"@davinci/core": "^1.0.1",
+		"@davinci/reflector": "^1.0.1",
 		"bluebird": "3.7.2",
 		"debug": "^4.1.1",
-		"express-graphql": "0.9.0",
+		"express-graphql": "0.11.0",
 		"graphql": "14.4.2",
 		"graphql-iso-date": "3.6.1",
-		"lodash": "4.17.11"
+		"lodash": "4.17.19"
 	},
 	"devDependencies": {
-		"@types/graphql": "14.2.3",
+		"@types/graphql": "14.5.0",
 		"@types/mocha": "^5.2.6",
 		"tslib": "^1.9.3",
 		"typescript": "^3.7.5"

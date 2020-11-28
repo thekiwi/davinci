@@ -18,8 +18,10 @@ import createPaths from './openapi/createPaths';
 import createSchemaDefinition from './openapi/createSchemaDefinition';
 import { IControllerDecoratorArgs } from './decorators/route';
 import { ISchema, ISwaggerDefinitions, MethodValidation, PathsValidationOptions } from './types';
+import { DaVinciExpress } from '../index';
+import responseHandler from '../express/middlewares/responseHandler';
 
-const debug = new Debug('of-base-api');
+const debug = new Debug('davinci:create-router');
 
 const transformDefinitionToValidAJVSchemas = (schema, validationOptions: MethodValidation) => {
 	if (Array.isArray(schema)) {
@@ -177,7 +179,13 @@ function mapReqToParameters<ContextType>(
 			} else {
 				throw new NotImplemented(`Can't get field ${p.name} - ${p.in} not yet supported`);
 			}
-			acc.push(processParameter({ value, config: p, definitions, validationOptions: methodValidationOptions }));
+			// eslint-disable-next-line no-underscore-dangle
+			acc[p._index] = processParameter({
+				value,
+				config: p,
+				definitions,
+				validationOptions: methodValidationOptions
+			});
 		}
 		return acc;
 	}, []);
@@ -261,7 +269,8 @@ const makeHandlerFunction = (
 		(req, _res, next) => {
 			req.requestHandled = true;
 			next();
-		}
+		},
+		responseHandler
 	];
 };
 
@@ -306,7 +315,12 @@ const validateController = (Controller: ClassType) => {
 	if (typeof Controller !== 'function') throw new Error('Invalid Controller - not function');
 };
 
-const createRouterAndSwaggerDoc = (Controller: ClassType, rsName?: string, contextFactory?: ContextFactory): Router => {
+const createRouterAndSwaggerDoc = (
+	Controller: ClassType,
+	rsName?: string | null,
+	contextFactory?: ContextFactory | null,
+	router: Router = express.Router()
+): Router | DaVinciExpress => {
 	// need to validate the inputs here
 	validateController(Controller);
 
@@ -321,9 +335,6 @@ const createRouterAndSwaggerDoc = (Controller: ClassType, rsName?: string, conte
 
 	// create the controller from the supplied class
 	const controller = new Controller();
-
-	// create the router
-	const router = express.Router();
 
 	// create the swagger structure
 	const mainDefinition = resourceSchema ? createSchemaDefinition(resourceSchema) : {};
